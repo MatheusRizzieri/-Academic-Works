@@ -31,7 +31,7 @@ Classe Turma contem aluno(s) e interage com Classe aluno adcionando ou removendo
 Define hierarquias de classe que consistem de objetos primitivos e objetos compostos. Os objetos primitivos podem compor objetos mais complexos, os quais, por sua vez, também podem compor outros objetos, e assim por diante, recursivamente
 Com Composite, não se pode confiar no sistema de tipos para garantir a obediência a essas restrições. Ao invês disso, verificações tem que ser usadas e testes em tempo de execução.
 
- ## Código de Exemplo - Adicionar alunos em uma determinada escola -
+ ## Código de Exemplo - Adicionar alunos em uma determinada escola.
  #### Diretório:
  -Academic-Works/Composite_Method/src/
  
