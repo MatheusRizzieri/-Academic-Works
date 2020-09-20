@@ -1,166 +1,36 @@
 # Composite Method
 Markdown
 
-### Nome e Classificação do Padrão:
-Chain of Responsibility - Padrão Comportamental
+### Classification: 
+Estrutural de objetos
 
-### Intenção e Objetivo:
-Este padrão tem como função representar um encadeamento de objetos para realizar o processamento de um série de requisições diferentes.
+### Subject:
+Estrutura de árvore, Hierarquias parte-todo
+
+### Descrição:
+Compor objetos em estruturas de árvore para representarem hierarquias parte-todo. Composite permite aos clientes tratarem de maneira uniforme objetos individuais e composições de objetos.
 
 ### Motivação:
-Na programação orientada a objetos devemos tentar ao máximo manter os objetos com fraco acoplamento de informações, havendo um mínima responsabilidade entre eles, fazendo com que falhas e riscos sejam evitadas.
 
-### Aplicabilidade:
-Uma solicitação pode ser tratada por mais de um objeto;
-A solicitação poderá ser emitida entre vários objetos e o receptor não é necessário ser especificado explicitamente;
+Em alguns sistemas, como por exemplo, aplicações gráficas tais como editores de desenhos e sistemas de captura esquemáticas, permitem aos usuários construir diagramas complexos a partir de componenetes simples. O usuário pode agrupar componentes para formar componentes maiores, os quais, por sua vez, podem ser agrupados para formar componentes ainda maiores. Uma implementação simples poderia definir classes que funcionam como recepientes para essas primitivas. Porém, há um problema com essa abordagem: o código que usa essas classes deve tratar objetos primitivos e objetos recepientes de modo diferente, mesmo se na maior parte do tempo o usuário os trata de forma idêntica. Ter que distinguir entre esses objetos torna a aplicação mais complexa. O padrão Composite descreve como usar a composição recursiva de maneira que os clientes não tenham que fazer essa distinção.
+A chave para o padrão Composite é uma classe abstrata que representa tanto as primitivas como os seus recepientes.
 
-### Participantes:
+### Aplicabilidade
+O framework compilador RTL Smalltalk usa o padão Composite extensamente.
+A RTL Expression é uma classe Component para árvores de análise.
+Esse padrão ocorre no domínio financeiro, em que um portifólio agrega atrativos individuais. Pode-se suportar agregações complexas de atrativos implementando um porifólio como um Composite compatível com a interface de um atrativo individual.
 
-Alimentador : define a interface para tratar as solicitações e implementa a referência ao sucessor (opcional).
-AlimentadorConcretoA, ..., AlimentadorConcretoN : trata as solicitações pelas quais é responsável. Pode acessar seu sucessor. Se o AlimentadorConcreto pode tratar a solicitação, ele assim o faz; caso contrário ele repassa a solicitação para o seu sucessor.
-Cliente : Inicia a solicitação para um objeto AlimentadorConcreto da cadeia.
-Requisição : As instâncias de Requisição é que iram transportar as informações para os alimentadores executarem algo.
+### Participantes
+Aluno e Turma
 
-### Conseqüências
-Vantagens
-Evita acoplamento do transmissor de um requisição com seus receptores, fazendo com que mais de um projeto tenha a chance de manipular a requisição.
-Encadeia os objetos receptores e passa a requisição ao longo dessa cadeia até que um objeto possa manipulá-lo.
-Reduz a vinculação.
-Adiciona flexibilidade.
-Permite que um conjunto de classes atue como uma classe; eventos produzidos em uma classe podem ser enviados para outras classes dentro da composição.
+Classe Aluno contem nome e matricula e interage com a classe turma.
+Classe Turma contem aluno(s) e interage com Classe aluno adcionando ou removendo aluno.
 
-## Exemplo de Código Aplicável
+### Consequências
 
-package chain;
+Define hierarquias de classe que consistem de objetos primitivos e objetos compostos. Os objetos primitivos podem compor objetos mais complexos, os quais, por sua vez, também podem compor outros objetos, e assim por diante, recursivamente
+Com Composite, não se pode confiar no sistema de tipos para garantir a obediência a essas restrições. Ao invês disso, verificações tem que ser usadas e testes em tempo de execução.
 
-public class Pizza {
-
-    private String sabor;
-    private String tamanho;
-
-    public Pizza(String s, String t) {
-        this.sabor = s;
-        this.tamanho = t;
-    }
-
-    public String getSabor() {
-        return this.sabor;
-    }
-
-    public String getTamanho() {
-        return this.tamanho;
-    }
-}
-
----------------------------------------------------------------------------------------------------
-
-
-package chain;
-
-public abstract class Alimentador {
-
-    private Alimentador sucessor;
-
-    public abstract String processaRequisicao(Pizza pizza);
-
-    public void setSucessor(Alimentador sucessor) {
-        this.sucessor = sucessor;
-    }
-
-    public Alimentador getSucessor() {
-        return this.sucessor;
-    }
-}
-
-
----------------------------------------------------------------------------------------------------
-
-package chain;
-
-public class AlimentadorAtumPequeno extends Alimentador {
-
-  
-    @Override
-    public String processaRequisicao(Pizza pizza) {
-        if ("atum".equals(pizza.getSabor()) && "pequeno".equals(pizza.getTamanho())) {
-            return "Preço: R$"+(15.50);
-        } else {
-            return this.getSucessor().processaRequisicao(pizza);
-        }
-    }
-
-    public AlimentadorAtumPequeno() {
-    }
-}
-
-
----------------------------------------------------------------------------------------------------
-package chain;
-
-public class AlimentadorAtumMedio extends Alimentador {
-
-  
-    @Override
-    public String processaRequisicao(Pizza pizza) {
-        if ("atum".equals(pizza.getSabor()) && "medio".equals(pizza.getTamanho())) {
-            return "Preço: R$"+(20.50);
-        } else {
-            return this.getSucessor().processaRequisicao(pizza);
-        }
-    }
-
-    public AlimentadorAtumMedio() {
-    }
-}
----------------------------------------------------------------------------------------------------
-
-
-package chain;
-
-public class AlimentadorDesconhecido extends Alimentador {
-
-  
-    @Override
-    public String processaRequisicao(Pizza pizza) {
-       return "Pizza inexistente";
-    }
-
-    public AlimentadorDesconhecido() {
-    }
-}
-
----------------------------------------------------------------------------------------------------
-
-package chain;
-
-public class Main {
-
-    public static void main(String args[]) {
-// Declaração dos alimentadores.
-        AlimentadorAtumPequeno ali_pequeno = new AlimentadorAtumPequeno();
-        AlimentadorAtumMedio ali_medio = new AlimentadorAtumMedio();
-        AlimentadorDesconhecido ali_desconhecido = new AlimentadorDesconhecido();
-// Configuração das sucessões.
-        ali_pequeno.setSucessor(ali_medio);
-        ali_medio.setSucessor(ali_desconhecido);
-// Definição das pizzas.
-        Pizza pizza1 = new Pizza("atum", "pequeno"); // R$ 15.50
-        Pizza pizza2 = new Pizza("atum", "medio"); // R$ 20.50
-        Pizza pizza3 = new Pizza("quatro queijos", "grande"); // inexistente
-// Imprime o valor das pizzas.
-        System.out.println(ali_pequeno.processaRequisicao(pizza1));
-        System.out.println(ali_pequeno.processaRequisicao(pizza2));
-        System.out.println(ali_pequeno.processaRequisicao(pizza3));
-    }
-}
-
-### Usos conhecidos: 
- -Tratamento de eventos em GUIs: MacApp, ET++, TCL, NeXT, Qt4
- -Unidraw
-
-### Padrões Relacionado:
- -Composite
- 
  ## Código de Exemplo - Adicionar alunos em uma determinada escola -
  #### Diretório:
  -Academic-Works/Composite_Method/src/
