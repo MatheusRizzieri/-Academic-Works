@@ -13,6 +13,7 @@ de um objeto (checkpoints, undo).
 ### • Aplicabilidade
 – Um instantâneo do estado de um objeto deve ser
 salvo para que possa ser restaurado mais tarde.
+
 – Uma interface direta para acesso ao estado exporia
 detalhes de implementação do objeto, violando o
 encapsulamento.
@@ -20,14 +21,19 @@ encapsulamento.
 ### • Participantes
 – Um Caretaker (curador) solicita um memento de um originador, mantém o
 mesmo durante um tempo e quando necessário, o devolve ao originador.
+
 – Mementos são passivos. Somente o originador que o criou irá atribuir ou
 recuperar o seu estado.
 
 ### • Conseqüências
 – Preserva o encapsulamento.
+
 – Simplifica o originador.
+
 – Pode ser computacionalmente caro.
+
 – Interfaces podem ser estreitas ou largas.
+
 – Custos ocultos na custódia dos mementos.
 
 ### Diretório:
