@@ -37,4 +37,4 @@ recuperar o seu estado.
 – Custos ocultos na custódia dos mementos.
 
 ### Diretório:
--Academic-Works/Observer_Method/src/
+-Academic-Works/Memento_Method/src/
