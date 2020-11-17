@@ -32,5 +32,5 @@ ConcreteStrategy para o contexto.
  Eliminam comandos condicionais ao se codificar os
 métodos
 
-Diretório:
+#### Diretório:
 -Academic-Works/Strategy_Method/src/
