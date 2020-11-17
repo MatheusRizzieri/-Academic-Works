@@ -16,7 +16,7 @@ diferentes situações.
 aplicação sem que esta tenha que sofrer alterações
 estruturais.
 
-## Colaborações
+## Participantes
  Strategy e Context interagem para implementar o
 algoritmo escolhido.
 
