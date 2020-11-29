@@ -1,4 +1,4 @@
-# Padrão Adapter
+# Adapter Method
 
 ## Intenção
  converter a interface de uma classe na interface esperada pelos clientes. 
